@@ -24,7 +24,7 @@ from pathlib import Path
 import requests
 
 # A basic logger
-log.basicConfig(level=log.DEBUG, style='{', format='Line: {lineno} | level: {levelname} | Time: {asctime} | Info: {message}')
+log.basicConfig(level=log.INFO, style='{', format='Line: {lineno} | level: {levelname} | Time: {asctime} | Info: {message}')
 
 
 # ==================================== Functions ====================================

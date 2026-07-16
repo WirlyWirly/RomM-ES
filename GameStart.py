@@ -18,22 +18,8 @@ from pathlib import Path
 # Third-party
 import requests
 
-# ==================================== Settings File ====================================
-
-# The absolute path to the RomM-ES directory
-romm_es = Path(sys.argv[0]).resolve().parents[0]
-
-# Load the options in the 'settings.ini' file
-config_file = romm_es / 'settings.ini'
-config = ConfigParser()
-config.read(config_file)
-
 # A basic logger
-if config['General']['log_to_file'] == 'true':
-    logfile_path = romm_es / 'GameStart.log'
-    log.basicConfig(filename=logfile_path, level=log.DEBUG, style='{', format='Line: {lineno} | level: {levelname} | Time: {asctime} | Info: {message}')
-else:
-    log.basicConfig(level=log.debug, style='{', format='Line: {lineno} | level: {levelname} | Time: {asctime} | Info: {message}')
+log.basicConfig(level=log.DEBUG, style='{', format='Line: {lineno} | level: {levelname} | Time: {asctime} | Info: {message}')
 
 # ES-DE will pass 4 positional arguments when calling this script...
 # "C:\path\to\rom.zip" "Game Name" "platform slug" "full platform name"
@@ -45,7 +31,7 @@ esde_slug = sys.argv[3] # 'gba'
 
 # ==================================== Placeholder Verification ====================================
 
-# Determine if the started game has a RomM placeholder and if so parse the RomM id
+# Determine if the started game is a RomM placeholder and if so parse the RomM id
 if os.path.getsize(esde_file) > 20:
     # This game file is too large to be a placeholder file, so exit
     sys.exit()
@@ -68,6 +54,14 @@ else:
 
 
 # ==================================== Load Settings ====================================
+
+# The absolute path to the RomM-ES directory
+romm_es = Path(sys.argv[0]).resolve().parents[0]
+
+# Load the options in the 'settings.ini' file
+config_file = romm_es / 'settings.ini'
+config = ConfigParser()
+config.read(config_file)
 
 # Read the mapped RomM slugs in 'platformMaps.json'
 platform_maps = romm_es / 'platformMaps.json'
