@@ -22,6 +22,7 @@ import requests
 # A basic logger
 log.basicConfig(level=log.INFO, style='{', format='Line: {lineno} | level: {levelname} | Time: {asctime} | Info: {message}')
 
+
 # ==================================== FUNCTIONS ====================================
 
 def importPlatformGames(platform_id, platform_slug):
@@ -147,6 +148,7 @@ def importPlatformGames(platform_id, platform_slug):
 
             with media_file.open('wb') as file:
                 file.write(response.content)
+
 
 # ==================================== MAIN ====================================
 
