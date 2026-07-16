@@ -1,0 +1,29 @@
+{
+    "gb": {
+        "esde": "gb"
+    },
+    "gba": {
+        "esde": "gba"
+    },
+    "gbc": {
+        "esde": "gbc"
+    },
+    "n64": {
+        "esde": "n64"
+    },
+    "nds": {
+        "esde": "nds"
+    },
+    "ngc": {
+        "esde": "ngc"
+    },
+    "ps2": {
+        "esde": "ps2"
+    },
+    "psp": {
+        "esde": "psp"
+    },
+    "xbox": {
+        "esde": "xbox"
+    }
+}
