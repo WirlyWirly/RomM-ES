@@ -55,12 +55,12 @@ To download games on demand, simply start a game in ES-DE and and it will be dow
 > Be aware that ES-DE may hang until the download is complete, which can be noticable with larger rom files or slower connections.
 
 
-ℹ️ All metadata is sourced directly from the RomM api and used to create the ES-DE library items
 
-ℹ️ RomM will be queried for each platform that is enabled in the `settings.ini` file. The returned list of games for that platform will each be checked against what is already in ES-DE, as dupe prevention based on filename. For those that are not already in ES-DE, their metadata\artwork will be downloaded and placed into the appropriate ES-DE directories. When you next start ES-DE, your RomM games will have been imoorted.
+ℹ️ RomM will be queried for each platform that is enabled in the `settings.ini` file. The returned list of games for that platform will each be checked against what is already in ES-DE, as dupe prevention based on filename. For those that are not already in ES-DE, their metadata\artwork will be downloaded and placed into the appropriate ES-DE directories. When you next start ES-DE, your RomM games will have been imported.
 
-ℹ️ When importing, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny plain-text placeholder files store the info that will allow for on-demand downloading when a game is first launched
+ℹ️ When importing, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny plain-text placeholder files store the RomM id of that game, which will later allow for on-demand downloading when a game is first launched.
 
+ℹ️ All metadata is sourced directly from the RomM api and used to create the ES-DE library items, so any edits should be done server side within RomM.
 
 ## 📝 TO-DO
 * Improve `gamelist.xml` handling
