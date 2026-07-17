@@ -54,6 +54,8 @@ def importPlatformGames(platform_id, platform_slug):
 <gameList></gameList>''')
 
     # Parse the existing gamelist.xml
+
+    # !!! Not parsing when the gamelist.xml has multiple root tags, such as after setting an alternative emulator
     gl_tree = ET.parse(gamelist_file)
     gl_root = gl_tree.getroot()
 
