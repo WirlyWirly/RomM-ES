@@ -29,6 +29,17 @@ log.basicConfig(level=log.INFO, style='{', format='Line: {lineno} | level: {leve
 
 # ==================================== Functions ====================================
 
+def createPlaceholderFile(placeholder_file, romm_id):
+    # Check for and then create a placeholder file if no file exsists
+
+    if placeholder_file.exists() == False:
+        # No file exists where the placeholder should be, so create a placeholder
+
+        placeholder_file.parents[0].mkdir(parents=True, exist_ok=True)
+        with placeholder_file.open('w', encoding='UTF-8') as file:
+            file.write(f"RomM-ES:{romm_id}")
+
+
 def importPlatformGames(platform_id, platform_slug):
     # Get every game for the provided platform_id and add any missing games to ES-DE
 
@@ -60,6 +71,12 @@ def importPlatformGames(platform_id, platform_slug):
     # Loop through every returned game and add it to ES-DE
     for game in games['items']:
         log.info(f"Name: {game['name']}")
+
+        # ---------- Placeholder File ----------
+
+        # Create placeholder files in the ES-DE ROMs directories, which will later be used by 'GameStart.py' to fetch the rom files from RomM
+        placeholder_file = roms_folder / f"{mappings[platform_slug]['esde']}/{game['fs_name']}"
+        createPlaceholderFile(placeholder_file, game['id'])
 
         # ---------- Dupe Check ----------
 
@@ -104,16 +121,6 @@ def importPlatformGames(platform_id, platform_slug):
             # Use the value as the inner text
             meta_element.text = value
 
-        # ---------- GameFile Placeholders ----------
-
-        # Create placeholder files in the ES-DE ROMs directories, which will later be used by 'GameStart.py' to fetch the rom files from RomM
-        gamefile = roms_folder / f"{mappings[platform_slug]['esde']}/{game['fs_name']}"
-
-        if gamefile.exists() == False:
-            gamefile.parents[0].mkdir(parents=True, exist_ok=True)
-            with gamefile.open('w', encoding='UTF-8') as file:
-                file.write(f"RomM-ES:{game['id']}")
-
         # ---------- Download Media ----------
 
         # Download the game artwork from RomM and place it in the appropriate ES-DE directories
@@ -125,7 +132,7 @@ def importPlatformGames(platform_id, platform_slug):
             'fanart': game['ss_metadata']['fanart_path'],
             'manuals': game['path_manual'],
             'marquees': game['ss_metadata']['logo_path'],
-            'miximages': game['ss_metadata']['miximage_path'],
+            'miximages': game['ss_metadata']['miximage_path'] if config['General']['romm_miximages'] == 'true' else None,
             'physicalmedia': game['ss_metadata']['physical_path'],
             'screenshots': game['merged_screenshots'][0] if len(game['merged_screenshots']) > 0 else None,
             'titlescreens': game['ss_metadata']['title_screen_path'],
@@ -183,20 +190,24 @@ if config_file.exists() == False:
 romm_url = http://localhost:8080
 romm_apitoken = abc123
 
-# The path to the ES-DE ROMs folder
-esde_roms = C:/path/to/ROMs
-
-# Setting this to 'true' will ignore individual platform settings below and import all games from all supported platforms
-import_all_platforms = true
-
-# The path to 7zip, if it is not already in the RomM-ES folder
-7zip = C:/path/to/7z.exe
+# The absolute path to the ES-DE ROMs folder
+esde_roms = C:/path/to/ROMs/
 
 # If the RomM-ES folder is not placed inside the ES-DE folder, then specify the absolute path to the ES-DE directory
 esde_folder = C:/path/to/ES-DE/
 
+# Setting this to 'true' will supersede individual platform settings below and import games from all supported platforms
+import_all_platforms = true
+
+# The absolute path to 7zip, if it is not already in the RomM-ES folder
+7zip = C:/path/to/7z.exe
+
+# Setting this to 'false' will prevent RomM MixImages from being downloaded, which is useful for if you prefer the generator offered by ES-DE
+romm_miximages = true
+
 [ImportPlatforms]
-# The RomM platforms whose games will be imported into ES-DE (superseded by 'import_all_platforms' above)
+# The RomM platforms whose games will be imported into ES-DE
+# These individual platform toggles are superseded by 'import_all_platforms' above
 gba = false
 n64 = false 
 nds = false 
