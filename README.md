@@ -42,7 +42,6 @@ After going through the setup, simply call the `GameImporter.py` script and it w
 To download games on demand, simply start a game and RomM and it will be downloaded from RomM. Keep in mind that ES-DE may appear to stall until the download is complete.
 
 # TO-DO
-*  `GameStart.sh` (linux) wrapper script
 * Archive extractions
 * Artwork\Metadata refreshing
 * More relative paths and less setup
