@@ -9,9 +9,9 @@
 
 <br>
 
-This "plugin" for 🕹️ [ES-DE](https://es-de.org/) will allow you to import games from a ☁️ [RomM](https://romm.app/) server into your ES-DE library
+This "plugin" will allow you to import games from a ☁️ [RomM](https://romm.app/) server into 🕹️ [ES-DE](https://es-de.org/)
 
-Games can be browsed like normal and will be automatically downloaded from RomM to ES-DE the first time they are launched, which means they take up no storage space until you decide to play them
+Games can be browsed in ES-DE like normal and will be automatically downloaded from RomM the first time they are launched
 
 Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://playnite.link/addons.html#RomM_9700aa21-447d-41b4-a989-acd38f407d9f), which works great and does basically the same thing within Playnite
 
@@ -54,9 +54,10 @@ Be aware that ES-DE may appear to stall until the download is complete, which ca
 * ES-DE may appear to hang when downloading larger roms or on a slower connection. This is normal, as it is waiting until the download is finished before proceeding to start the emulator
 
 ## 📝 TO-DO
-* Improved `gamelist.xml` handling
-* Archive extractions
-* Artwork\Metadata updating
+* Improve `gamelist.xml` handling
+* Improve error-handling
+* Archive extracting
+* Artwork\Metadata refreshing
 * MixImage uploading from ES-DE to RomM
 * More relative paths and streamlined setup
 * Go to bed 😩
