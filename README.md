@@ -9,13 +9,11 @@
 
 <br>
 
-This "plugin" will allow you to import games from a ☁️ [RomM](https://romm.app/) library into 🕹️ [ES-DE](https://es-de.org/), where they can be browsed and downloaded on-demand.
+This "plugin" for 🕹️ [ES-DE](https://es-de.org/) will allow you to import games from a ☁️ [RomM](https://romm.app/) server into your ES-DE library
 
-Metadata is pulled directly from the RomM api and used to create ES-DE library items.
+Games can be browsed like normal and will be automatically downloaded from RomM to ES-DE the first time they are launched, which means they take up no storage space until you decide to play them
 
-At the same time, byte sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny placeholder files will allow for on-demand downloading when a game is first started. This means that you can import and browse your entire RomM library in ES-DE, but without the game files taking up any storage space until you are ready to play them.
-
-Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://playnite.link/addons.html#RomM_9700aa21-447d-41b4-a989-acd38f407d9f), which works great and does basically the same thing for Playnite.
+Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://playnite.link/addons.html#RomM_9700aa21-447d-41b4-a989-acd38f407d9f), which works great and does basically the same thing within Playnite
 
 # 🤖 Dependencies
 * [RomM](https://romm.app/)
@@ -23,7 +21,7 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 * [Python 3.10+](https://www.python.org/)
 * `pip install -r requirements.txt`
 
-# 🧭 Setup
+# 🖥️ Setup
 
 1) Enable the ES-DE setting  `Other Settings > Enable Custom Event Actions`
     * The [`game-start`](https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#custom-event-scripts) custom event is what will trigger roms to be downloaded on demand when a game is first started.
@@ -36,7 +34,7 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 4) Move the `GameStart.bat` (windows) or `GameStart.sh` (linux) file to the `ES-DE/scripts/game-start/` directory. Edit the file with the correct paths to call the `GameStart.py` script.
     * If the `game-start` directory does not already exist, simply create it. Scripts in this directory will be triggered when when a game is started in ES-DE but before the emulator is actually launched. This in-between step is when files will be downloaded from RomM.
 
-# ℹ️ Usage
+# 🧭 Instructions
 
 > [!WARNING]
 >  Make sure to **exit** ES-DE **before** running the `GameImporter` script.
@@ -52,8 +50,15 @@ To download games on demand, simply start a game in ES-DE and and it will be dow
 
 Be aware that ES-DE may appear to stall until the download is complete, which can be noticable with slow connections or large rom files.
 
-# 🗒️ TO-DO
+# ℹ️ Notes
+All metadata is sourced directly from the RomM api and used to create the ES-DE library items.
+
+During the import, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny placeholder files are what will allow for on-demand downloading when a game is first launched.
+
+# 📝 TO-DO
+* Improved `gamelist.xml` handling
 * Archive extractions
-* Artwork\Metadata refreshing
+* Artwork\Metadata updating
+* MixImage uploading from ES-DE to RomM
 * More relative paths and streamlined setup
 * Go to bed 😩
