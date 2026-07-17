@@ -32,7 +32,7 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
     `python "C:\path\to\GameImporter.py"`
    
 4) Move the `GameStart.bat` (windows) or `GameStart.sh` (linux) file to the `ES-DE/scripts/game-start/` directory. Edit the file with the correct paths to call the `GameStart.py` script.
-    * If the `game-start` directory does not already exist, simply create it. Scripts in this directory will be triggered when when a game is started in ES-DE but before the emulator is actually launched. This in-between step is when files will be downloaded from RomM.
+    * Create the `game-start` directory if it does not already exist. Scripts in this directory will be triggered when when a game is started in ES-DE but before the emulator is actually launched. This in-between time is when rom files will be downloaded from RomM.
 
 
 ## 🧭 Instructions
