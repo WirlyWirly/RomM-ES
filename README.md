@@ -42,7 +42,7 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 > [!WARNING]
 >  Make sure to **exit** ES-DE **before** running the `GameImporter` script.
 >
-> Adding RomM games while ES-DE is running may result in undetected changes, overwritten changes, or even corrupted `gamelist.xml` files within the ES-DE directory.
+> Importing games using external tools while ES-DE is running can result in undetected changes, overwritten changes, or even corrupted `gamelist.xml` files.
 
 
 After going through the setup, simply call the `GameImporter.py` script and it will query RomM to begin importing games. For each platform that is queried, the artwork and metadata of every game not already listed in ES-DE will be downloaded and placed into the appropriate ES-DE directories. When you next start ES-DE, your RomM games will have been populated.
