@@ -15,14 +15,13 @@ Games can be browsed like normal and will be automatically downloaded from RomM 
 
 Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://playnite.link/addons.html#RomM_9700aa21-447d-41b4-a989-acd38f407d9f), which works great and does basically the same thing within Playnite
 
-# 🤖 Dependencies
+## 🤖 Dependencies
 * [RomM](https://romm.app/)
 * [ES-DE](https://es-de.org/)
 * [Python 3.10+](https://www.python.org/)
 * `pip install -r requirements.txt`
 
-# 🖥️ Setup
-
+## 🖥️ Setup
 1) Enable the ES-DE setting  `Other Settings > Enable Custom Event Actions`
     * The [`game-start`](https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#custom-event-scripts) custom event is what will trigger roms to be downloaded on demand when a game is first started.
       
@@ -34,8 +33,7 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 4) Move the `GameStart.bat` (windows) or `GameStart.sh` (linux) file to the `ES-DE/scripts/game-start/` directory. Edit the file with the correct paths to call the `GameStart.py` script.
     * If the `game-start` directory does not already exist, simply create it. Scripts in this directory will be triggered when when a game is started in ES-DE but before the emulator is actually launched. This in-between step is when files will be downloaded from RomM.
 
-# 🧭 Instructions
-
+## 🧭 Instructions
 > [!WARNING]
 >  Make sure to **exit** ES-DE **before** running the `GameImporter` script.
 >
@@ -50,12 +48,12 @@ To download games on demand, simply start a game in ES-DE and and it will be dow
 
 Be aware that ES-DE may appear to stall until the download is complete, which can be noticable with slow connections or large rom files.
 
-# ℹ️ Notes
-All metadata is sourced directly from the RomM api and used to create the ES-DE library items.
+## ℹ️ Notes
+* All metadata is sourced directly from the RomM api and used to create the ES-DE library items
+* During the import, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny placeholder files are what will allow for on-demand downloading when a game is first launched
+* ES-DE may appear to hang when downloading larger roms or on a slower connection. This is normal, as it is waiting until the download is finished before proceeding to start the emulator
 
-During the import, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny placeholder files are what will allow for on-demand downloading when a game is first launched.
-
-# 📝 TO-DO
+## 📝 TO-DO
 * Improved `gamelist.xml` handling
 * Archive extractions
 * Artwork\Metadata updating
