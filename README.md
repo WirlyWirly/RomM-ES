@@ -12,7 +12,7 @@
 # Description
 This "plugin" will allow you to import games from your ☁️ [RomM](https://romm.app/) library to be browsed and then downloaded directly from 🕹️ [ES-DE](https://es-de.org/) .
 
-Metadata will be pulled directly from RomM and used to create ES-DE library items.
+Metadata will be pulled directly from the RomM api and used to create ES-DE library items.
 
 At the same time, byte sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny placeholder files will allow for on-demand downloading when a game is first started. This means that you can import and browse your entire RomM library in ES-DE, but without the game files taking up any storage space until you are ready to play them.
 
