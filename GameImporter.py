@@ -43,6 +43,8 @@ def createPlaceholderFile(placeholder_file, romm_id):
 def importPlatformGames(platform_id, platform_slug):
     # Get every game for the provided platform_id and add any missing games to ES-DE
 
+    # ---------- Parse platforms gameList.xml ----------
+
     gamelist_file = esde / f"gamelists/{mappings[platform_slug]['esde']}/gamelist.xml"
     log.info(f'gamelist.xml: {gamelist_file}')
 
@@ -65,6 +67,8 @@ def importPlatformGames(platform_id, platform_slug):
         for value_item in list_item:
             if value_item.tag == 'path':
                 imported_paths.append(value_item.text)
+
+    # ---------- RomM Query ----------
 
     # Query RomM for all games for this platform
     response = requests.get(f'{romm_url}/api/roms?platform_ids={platform_id}&order_by=name&order_dir=asc&limit=10000', headers=romm_auth)
@@ -90,7 +94,7 @@ def importPlatformGames(platform_id, platform_slug):
             log.debug(f'Dupe: {gamefile_path}')
             continue
 
-        # ---------- Add to gameList.xml ----------
+        # ---------- Updated gameList.xml object ----------
 
         # Milliseconds to seconds to date-string
         epoch_timestamp = game['metadatum']['first_release_date'] 
@@ -109,14 +113,14 @@ def importPlatformGames(platform_id, platform_slug):
             rating = str(round(game['metadatum']['average_rating'] / 100, 1))
 
 
-
         # The game metadata that will be added to 'gamelist.xml'
         esde_metadata = {
             'name': game['name'],
             'releasedate': release_date,
             'path': gamefile_path[0],
             'rating': rating,
-            'publisher': game['metadatum']['companies'][0] if len(game['metadatum']['companies']) > 0 else None,
+            'publisher': game['ss_metadata']['companies'][0] if len(game['ss_metadata']['companies']) > 0 else None, 
+            'developer': game['ss_metadata']['companies'][1] if len(game['ss_metadata']['companies']) > 1 else None,
             'players': game['metadatum']['player_count'],
             'genre': game['metadatum']['genres'][0] if len(game['metadatum']['genres'][0]) > 0 else None,
             'favorite': 'false',
@@ -157,7 +161,7 @@ def importPlatformGames(platform_id, platform_slug):
         }
 
         for key, value in media_urls.items():
-            # Prepare, parse, and then download each entry in media_urls
+            # Prepare, parse, and then download each item in media_urls
 
             if (value is None) or (value == ''):
                 # RomM has no media for this artwork type, so do nothing
@@ -175,20 +179,20 @@ def importPlatformGames(platform_id, platform_slug):
             # The extension to use when saving the media
             extension = re.search(r'\.(png|webp|jpg|gif|jxl|mp4)', media_url)[1]
 
-            # The path for where the media will be saved
+            # The path for where the media file will be saved
             media_file = downloaded_media / f"{mappings[platform_slug]['esde']}/{key}/{game['fs_name_no_ext']}.{extension}"
             media_file.parents[0].mkdir(parents=True, exist_ok=True)
 
             # GET and then save the media_url as media_file
             response = requests.get(media_url, headers=romm_auth)
-
             with media_file.open('wb') as file:
                 file.write(response.content)
 
-    # Write the changes to the gamelist.xml
+
+    # Update the gamelist.xml with the new changes
     ET.indent(gl_tree, space="\t", level=0)
     gl_tree.write(gamelist_file)
-        
+
 
 # ==================================== Main ====================================
 
@@ -196,6 +200,8 @@ def importPlatformGames(platform_id, platform_slug):
 romm_es = Path(sys.argv[0]).resolve().parents[0]
 
 log.info(f'RomM-ES Path: {romm_es}')
+
+# ---------- Load Settings ----------
 
 # Load the options in the 'settings.ini' file
 config_file = romm_es / 'settings.ini'
@@ -238,7 +244,6 @@ xbox = false
     input("A 'settings.ini' file has been created in the RomM-ES directory.\n\nEdit this file to fit your settings and then re-run this script.")
     sys.exit()
 
-
 config = ConfigParser()
 config.read(config_file)
 
@@ -252,12 +257,12 @@ roms_folder = Path(config['General']['esde_roms'])
 gamelists = esde / 'gamelists'
 downloaded_media = esde / 'downloaded_media'
 
-# Read the mapped RomM slugs in 'rommSlugMapper.json'
+# Read the mapped RomM to ES-DE platform slugs
 platform_maps = romm_es / 'platformMaps.json'
 with platform_maps.open('r', encoding='utf-8') as file:
     mappings = json.load(file)
 
-# ==================================== RomM Importing ====================================
+# ---------- RomM Importing ----------
 
 romm_url = config['General']['romm_url']
 romm_api = config['General']['romm_apitoken']
