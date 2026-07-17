@@ -2,8 +2,12 @@
 
   # ☁️ RomM-ES 🕹️
 </div>
-<br>
 
+<div align="center">
+  <img src=".github/assets/preview.webp" alt="preview" width="100%" />
+</div>
+
+<br>
 
 # Description
 This "plugin" will allow you to import games from your ☁️ [RomM](https://romm.app/) library to be browsed and then downloaded directly from 🕹️ [ES-DE](https://es-de.org/) .
