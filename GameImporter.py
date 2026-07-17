@@ -91,19 +91,30 @@ def importPlatformGames(platform_id, platform_slug):
         # ---------- Add to gameList.xml ----------
 
         # Milliseconds to seconds to date-string
-        epoch_timestamp = game['metadatum']['first_release_date'] / 1000
-        release_date = time.strftime('%Y%m%dT000000', time.gmtime(epoch_timestamp))
+        epoch_timestamp = game['metadatum']['first_release_date'] 
+
+        if epoch_timestamp is None:
+            release_date = None
+        else:
+            epoch_timestamp = epoch_timestamp / 1000
+            release_date = time.strftime('%Y%m%dT000000', time.gmtime(epoch_timestamp))
+
 
         # Rating rounded to decimal
-        rating = round(game['metadatum']['average_rating'] / 100, 1)
+        rating = game['metadatum']['average_rating']
+
+        if rating != None:
+            rating = str(round(game['metadatum']['average_rating'] / 100, 1))
+
+
 
         # The game metadata that will be added to 'gamelist.xml'
         esde_metadata = {
             'name': game['name'],
             'releasedate': release_date,
             'path': gamefile_path[0],
-            'rating': str(rating),
-            'publisher': game['metadatum']['companies'][0] if len(game['metadatum']['companies'][0]) > 0 else None,
+            'rating': rating,
+            'publisher': game['metadatum']['companies'][0] if len(game['metadatum']['companies']) > 0 else None,
             'players': game['metadatum']['player_count'],
             'genre': game['metadatum']['genres'][0] if len(game['metadatum']['genres'][0]) > 0 else None,
             'favorite': 'false',
@@ -114,6 +125,10 @@ def importPlatformGames(platform_id, platform_slug):
         new_game_element = ET.SubElement(gl_root, 'game')
 
         for key, value in esde_metadata.items():
+
+            if value is None:
+                # No metadata value, so skip
+                continue
 
             # Use the key as the element tag
             meta_element = ET.SubElement(new_game_element, key)
@@ -142,7 +157,7 @@ def importPlatformGames(platform_id, platform_slug):
         for key, value in media_urls.items():
             # Prepare, parse, and then download each entry in media_urls
 
-            if value is None:
+            if (value is None) or (value == ''):
                 # RomM has no media for this artwork type, so do nothing
                 continue
 
