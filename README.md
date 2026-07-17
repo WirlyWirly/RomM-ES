@@ -29,9 +29,9 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 1) Enable the ES-DE setting  `Other Settings > Enable Custom Event Actions`
     * The [`game-start`](https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#custom-event-scripts) custom event is what will trigger roms to be downloaded on demand when a game is first started.
       
-2) Clone\Download this repo and place the main `RomM-ES` folder into your `ES-DE` data directory, aalongside the `gamelists` and `downloaded_media` directories
+2) Clone\Download this repo and place the main `RomM-ES` folder into your `ES-DE` data directory, alongside the `gamelists` and `downloaded_media` directories
    
-3) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit the settings file with your RomM credentials and `esde_roms` path.
+3) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit the settings file to include your RomM credentials and `esde_roms` path.
     `python "C:\path\to\GameImporter.py"`
    
 4) Move the `GameStart.bat` (windows) or `GameStart.sh` (linux) file to the `ES-DE/scripts/game-start/` directory. Edit the file with the correct paths to call the `GameStart.py` script.
@@ -49,7 +49,9 @@ After going through the setup, simply call the `GameImporter.py` script and it w
 
  `python ./GameImporter.py`
 
-To download games on demand, simply start a game and and it will be downloaded from RomM using the `GameStart.py` script. Be aware that ES-DE may appear to stall until the download is complete, which can be noticable with slow connections or large rom files.
+To download games on demand, simply start a game in ES-DE and and it will be downloaded from RomM using the `GameStart.py` script.
+
+Be aware that ES-DE may appear to stall until the download is complete, which can be noticable with slow connections or large rom files.
 
 # TO-DO
 * Archive extractions
