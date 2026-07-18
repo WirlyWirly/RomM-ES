@@ -11,7 +11,7 @@
 
 This "plugin" will allow you to import games from a ☁️ [RomM](https://romm.app/) server into 🕹️ [ES-DE](https://es-de.org/)
 
-Games can be browsed in ES-DE like normal and will be automatically downloaded from RomM the first time they are launched
+Games can be browsed in ES-DE will be automatically downloaded from RomM the first time they are launched
 
 Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://playnite.link/addons.html#RomM_9700aa21-447d-41b4-a989-acd38f407d9f), which works great and does basically the same thing within Playnite
 
@@ -22,15 +22,17 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 * [Python 3.10+](https://www.python.org/)
 * `pip install -r requirements.txt`
 
+
 ## 🖥️ Setup
 1) Enable the ES-DE setting  `Other Settings > Enable Custom Event Actions`
-    * The [`game-start`](https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#custom-event-scripts) custom event is what will trigger roms to be downloaded on demand when a game is first started.
+    * The [`game-start`](https://gitlab.com/es-de/emulationstation-de/-/blob/master/INSTALL.md#custom-event-scripts) custom event is what will trigger roms to be downloaded on demand when a game is first started
       
-2) Clone\Download this repo and place the main `RomM-ES` folder into your `ES-DE` data directory, alongside the `gamelists` and `downloaded_media` directories
+2) Download\Clone this repo and place the main `RomM-ES` folder into your `ES-DE` data directory, alongside the `gamelists` and `downloaded_media` directories
+    * RomM-ES assumes you are using the ES-DE default `ES-DE/downloaded_media/` directory for artwork
    
-3) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit **at-least** the options in the `[Required]` section of the settings file.
+4) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit **at-least** the options in the `[Required]` section of the settings file.
 
-      ```sh
+      ```cmd
    python "C:\path\to\GameImporter.py"
       ````
    
@@ -42,26 +44,27 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 > [!WARNING]
 >  Make sure to **exit** ES-DE **before** running the `GameImporter` script.
 >
-> Importing games using external tools while ES-DE is running can result in undetected changes, overwritten changes, or even corrupted `gamelist.xml` files.
+> Importing games with external-tools while ES-DE is running can result in undetected changes, overwritten changes, or even corrupted `gamelist.xml` files.
 
 
 After doing the setup above, simply call the `GameImporter.py` script and it will begin importing games from RomM into ES-DE
  
-```sh
-python ./GameImporter.py
+```cmd
+python "./GameImporter.py"
 ```
 
-To download games on demand, you need only start a game in ES-DE and it will be downloaded from RomM using the `GameStart.py` script.
+After importing, you need only start a game in ES-DE and it will be downloaded from RomM using the `GameStart.py` script.
 
 
 > [!NOTE]
-> Be aware that ES-DE may hang until the download is complete, which can be noticable with larger rom files or slower connections.
+> When downloading larger rom files or on slower connections, ES-DE may appear to hang until the download is complete
 
-* When importing, RomM will be queried for each platform that is enabled in the `settings.ini` file. The returned list of games for that platform will each be checked against what is already in ES-DE for any dupes based on filenames. For games that are not already in ES-DE, their metadata\artwork will be downloaded and placed into the appropriate ES-DE directories. When you next start ES-DE, your RomM games will have been imported.
+## ℹ️ Info
+* If you enable the ES-DE option `Other Settings > Run in Background (While game is launched)`, you can avoid the black-screen that may appear while a rom is downloading larger files. You will instead be left inside ES-DE until the download completes and the emulator is started.
 
-* When importing, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny plain-text placeholder files store the RomM id of that game, which will later allow for on-demand downloading when a game is first launched.
-
-* All metadata is sourced directly from the RomM api and used to create the ES-DE library items, so any edits should be done server side within RomM.
+* When importing, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny plain-text placeholder files store the RomM id of that game, which will later be used by `GameStart.py` to download from RomM when a game is first launched. If the RomM id changes (such as the game being removed and then re-scanneed into RomM), then the download will fail because the RomM id in the placeholder file will no longer be valid. You will have to re-import your games to update the placeholder files with the current RomM id.
+  
+* All metadata is sourced directly from the RomM api and used to create the ES-DE library items, so any edits should be done server side in RomM.
 
 ## 📝 TO-DO
 * Improve error-handling
