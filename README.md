@@ -28,7 +28,7 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
       
 2) Clone\Download this repo and place the main `RomM-ES` folder into your `ES-DE` data directory, alongside the `gamelists` and `downloaded_media` directories
    
-3) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit the settings file to include your RomM credentials and `esde_roms` path.
+3) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit the options in the `[Required]` section of the settings file, and any others as you'd like.
     `python "C:\path\to\GameImporter.py"`
    
 4) Move the `GameStart.bat` (windows) or `GameStart.sh` (linux) file to the `ES-DE/scripts/game-start/` directory. Edit the file with the correct paths to call the `GameStart.py` script.
