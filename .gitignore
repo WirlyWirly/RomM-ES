@@ -133,4 +133,6 @@ dmypy.json
 settings.ini
 ES-DE/
 7z*
+/GameImporter.bat
+/GameImporter.sh
 
