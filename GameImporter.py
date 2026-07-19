@@ -8,15 +8,12 @@ __VERSION__ = 0.2
 # ==================================== Package Imports ====================================
 
 # Standard Library
-import base64
 import json
 import logging as log
 import os
 import re
-import shutil
 import sys
 import time
-import xml.etree.ElementTree as ET
 
 from configparser import ConfigParser
 from pathlib import Path
