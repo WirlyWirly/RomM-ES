@@ -369,8 +369,7 @@ xboxone = false
 
 
 [ExtractedExtension]
-# If the roms are archived and need to be extracted, specify the file extension of the extracted rom file (no period)
-# ES-DE does not allow for changes to the filename when launching a game, so archives that need extraction must be imported with their extracted extension already specified
+# The file extension of the rom after archive extraction (leave blank for no extracting)
 3ds = 
 c64 = 
 dc = 

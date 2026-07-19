@@ -57,9 +57,11 @@ After importing, you need only start a game in ES-DE and it will be downloaded f
 
 
 > [!NOTE]
-> When downloading larger rom files or on slower connections, ES-DE may appear to hang until the download is complete
+> When downloading larger rom files or on slower connections, ES-DE may appear to hang until the download is complete.
 
 ## ℹ️ Info
+* If the roms are archived and need to be extracted, specify the file extension of the extracted rom file (no period) in the `[ExtractedExtensions]` section of the `settings.ini` file. ES-DE does not allow for changes to the filename when launching a game, so archives that need extraction must be imported with their extracted extension already specified.
+
 * If you enable the ES-DE option `Other Settings > Run in Background (While game is launched)`, you can avoid the black-screen that may appear while a rom is downloading larger files. You will instead be left inside ES-DE until the download completes and the emulator is started.
 
 * When importing, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny plain-text placeholder files store the RomM id of that game, which will later be used by `GameStart.py` to download from RomM when a game is first launched. If the RomM id changes (such as the game being removed and then re-scanneed into RomM), then the download will fail because the RomM id in the placeholder file will no longer be valid. You will have to re-import your games to update the placeholder files with the current RomM id.
@@ -68,7 +70,6 @@ After importing, you need only start a game in ES-DE and it will be downloaded f
 
 ## 📝 TO-DO
 * Improve error-handling
-* Archive extracting
 * Artwork\Metadata refreshing
 * MixImage uploading from ES-DE to RomM
 * More relative paths and streamlined setup process
