@@ -109,6 +109,12 @@ game = response.json()
 # If a rom_file_id is not determined, the placeholder file will not be replaced
 rom_file_id = False
 
+# Check if this platform has a specified extension indicating extraction
+extract_file = False
+if config['ExtractExtension'][romm_slug] != '':
+    extract_file = True
+
+
 # Determine the rom file id from the list of attached files
 for rom_file in game['files']:
     if esde_rom_filename == rom_file['file_name'] and romm_slug == game['platform_fs_slug']:

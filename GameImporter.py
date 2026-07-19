@@ -27,7 +27,7 @@ log.basicConfig(level=log.INFO, style='{', format='Line: {lineno} | level: {leve
 
 # ==================================== Functions ====================================
 
-def createPlaceholderFile(placeholder_file, romm_id):
+def createPlaceholderFile(placeholder_file, romm_id, romm_extension=None):
     # Create or update a RomM placeholder file
 
     if placeholder_file.exists() == False:
@@ -35,7 +35,12 @@ def createPlaceholderFile(placeholder_file, romm_id):
 
         placeholder_file.parent.mkdir(parents=True, exist_ok=True)
         with placeholder_file.open('w', encoding='UTF-8') as file:
-            file.write(f'RomM-ES:{romm_id}')
+
+            if extract_file == False:
+                file.write(f'RomM-ES:{romm_id}')
+            else:
+                file.write(f'RomM-ES:{romm_id}:{romm_extension}')
+
             log.debug(f'Placeholder: "{placeholder_file}"')
 
     elif os.path.getsize(placeholder_file) > 20:
@@ -60,7 +65,12 @@ def createPlaceholderFile(placeholder_file, romm_id):
             placeholder_id = int(placeholder_id[1])
 
             with placeholder_file.open('w', encoding='UTF-8') as file:
-                file.write(f'RomM-ES:{romm_id}')
+
+                if extract_file == False:
+                    file.write(f'RomM-ES:{romm_id}')
+                else:
+                    # Save the RomM file extension along with the RomM id
+                    file.write(f'RomM-ES:{romm_id}:{romm_extension}')
 
 
 def importGame(game, existing_paths):
@@ -72,10 +82,12 @@ def importGame(game, existing_paths):
     placeholder_file = roms_folder / f"{mappings[platform_slug]['esde']}/{game['fs_name']}"
 
     # Change the extension of the placeholder file to match what will be extracted
-    if extract_file == True:
+    if extract_file == False:
+        createPlaceholderFile(placeholder_file, game['id'])
+    else:
         placeholder_file = placeholder_file.parent / f"{placeholder_file.stem}.{config['ExtractedExtension'][platform_slug]}"
-
-    createPlaceholderFile(placeholder_file, game['id'])
+        romm_extension = re.search(r'\.\w+?$', game['fs_name'])
+        createPlaceholderFile(placeholder_file, game['id'], romm_extension)
 
     # ---------- Dupe Check ----------
 
