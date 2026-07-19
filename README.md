@@ -11,7 +11,7 @@
 
 This "plugin" will allow you to import games from a ☁️ [RomM](https://romm.app/) server into 🕹️ [ES-DE](https://es-de.org/)
 
-Games can be browsed in ES-DE will be automatically downloaded from RomM the first time they are launched
+Games can be browsed in ES-DE and be downloaded from RomM the first time they are launched
 
 Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://playnite.link/addons.html#RomM_9700aa21-447d-41b4-a989-acd38f407d9f), which works great and does basically the same thing within Playnite
 
