@@ -11,7 +11,7 @@
 
 This "plugin" will allow you to import games from a ☁️ [RomM](https://romm.app/) server into 🕹️ [ES-DE](https://es-de.org/)
 
-Games can be browsed in ES-DE and be downloaded from RomM the first time they are launched
+Games can be browsed in ES-DE and then downloaded from RomM the first time they are launched
 
 Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://playnite.link/addons.html#RomM_9700aa21-447d-41b4-a989-acd38f407d9f), which works great and does basically the same thing within Playnite
 
@@ -30,30 +30,28 @@ Inspiration for this "plugin" comes from the [RomM Playnite Plugin](https://play
 2) Download\Clone this repo and place the main `RomM-ES` folder into your `ES-DE` data directory, alongside the `gamelists` and `downloaded_media` directories
     * RomM-ES assumes you are using the ES-DE default `ES-DE/downloaded_media/` directory for artwork
    
-4) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit **at-least** the options in the `[Required]` section of the settings file.
+4) Run the `GameImporter.py` script to generate a `settings.ini` file, which will appear in the `RomM-ES` directory. Edit this file with your RomM credentials and the path to where ES-DE scans for roms.
 
       ```cmd
    python "C:\path\to\GameImporter.py"
       ````
    
-5) Move the `GameStart.bat` (windows) or `GameStart.sh` (linux) file to the `ES-DE/scripts/game-start/` directory. Edit the file with the correct paths to call the `GameStart.py` script.
-    * Create the `game-start` directory if it does not already exist. Scripts in this directory will be triggered when when a game is started in ES-DE but before the emulator is actually launched. This in-between time is when rom files will be downloaded from RomM.
+5) Move the `GameStart.bat` (windows) or `GameStart.sh` (linux) file to the `ES-DE/scripts/game-start/` directory, then edit the file with the correct paths to call the `GameStart.py` script.
+    * Create the `game-start` directory if it does not already exist. Scripts in this directory will be triggered when a game is launched in ES-DE, but before the emulator is actually started. This in-between time is when rom files will actually be downloaded from RomM.
 
 
 ## 🧭 Instructions
 > [!WARNING]
->  Make sure to **exit** ES-DE **before** running the `GameImporter` script.
->
-> Importing games with external-tools while ES-DE is running can result in undetected changes, overwritten changes, or even corrupted `gamelist.xml` files.
+>  **Exit** ES-DE **before** running the `GameImporter.py` script, as not doing so can result in undetected\overwritten changes or even corrupted `gamelist.xml` files.
 
 
-After doing the setup above, simply call the `GameImporter.py` script and it will begin importing games from RomM into ES-DE
+After doing the setup above, simply call the `GameImporter.py` script and it will begin importing games from RomM into ES-DE...
  
 ```cmd
 python "./GameImporter.py"
 ```
 
-After importing, you need only start a game in ES-DE and it will be downloaded from RomM using the `GameStart.py` script.
+After importing, you need only launch a game in ES-DE and it will be downloaded from RomM using the `GameStart.py` script.
 
 
 > [!NOTE]
@@ -68,6 +66,7 @@ After importing, you need only start a game in ES-DE and it will be downloaded f
 * When importing, byte-sized **placeholder** files will be created in the ROMs directory of ES-DE. These tiny plain-text placeholder files store the RomM id of that game, which will later be used by `GameStart.py` to download the game from RomM when it is first launched. If the RomM id changes (such as the game being removed and then re-scanned into RomM), then the download will fail because the RomM id in the placeholder file will no longer be valid. Placeholder files can be updated by performing an import.
   
 * All metadata is sourced directly from the RomM api and used to create the ES-DE library items, so any edits should be done server side in RomM.
+
 
 ## 📝 TO-DO
 * Improve error-handling
