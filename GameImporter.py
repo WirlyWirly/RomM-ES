@@ -33,7 +33,7 @@ def createPlaceholderFile(placeholder_file, romm_id):
     if placeholder_file.exists() == False:
         # No file exists where the placeholder should be, so create a placeholder
 
-        placeholder_file.parents[0].mkdir(parents=True, exist_ok=True)
+        placeholder_file.parent.mkdir(parents=True, exist_ok=True)
         with placeholder_file.open('w', encoding='UTF-8') as file:
             file.write(f'RomM-ES:{romm_id}')
             log.debug(f'Placeholder: "{placeholder_file}"')
@@ -70,6 +70,11 @@ def importGame(game, existing_paths):
 
     # Create placeholder files in the ES-DE ROMs directories, which will later be used by 'GameStart.py' to fetch the rom files from RomM
     placeholder_file = roms_folder / f"{mappings[platform_slug]['esde']}/{game['fs_name']}"
+
+    # Change the extension of the placeholder file to match what will be extracted
+    if extract_file == True:
+        placeholder_file = placeholder_file.parent / f"{placeholder_file.stem}.{config['ExtractedExtension'][platform_slug]}"
+
     createPlaceholderFile(placeholder_file, game['id'])
 
     # ---------- Dupe Check ----------
@@ -78,12 +83,20 @@ def importGame(game, existing_paths):
     gamefile_path = f"./{game['fs_name']}",
     gamefile_path = gamefile_path[0]
 
+    # Check if this platform has a specified extension indicating extraction
+    if extract_file == True:
+        gamefile_path = re.sub(r'\.\w+?$', f".{config['ExtractedExtension'][platform_slug]}", gamefile_path)
+
     if gamefile_path in existing_paths:
         # This rom path is already listed in the gamelist.xml, so continue to the next item to avoid a dupe
         log.debug(f'Duplicate: {gamefile_path}')
         return 'duplicate'
 
-    print(f"+ {game['fs_name']}")
+    if extract_file == False:
+        print(f"+ {game['fs_name']}")
+    else:
+        print(f"+ [{config['ExtractedExtension'][platform_slug]}] {game['fs_name']}")
+
     log.debug(f"Importing: {game['fs_name']}")
 
     # ---------- Game Metadata ----------
@@ -215,7 +228,11 @@ def importPlatformGames(platform_id, platform_slug):
     response = requests.get(f'{romm_url}/api/roms?platform_ids={platform_id}&order_by=name&order_dir=asc&limit=10000', headers=romm_auth)
     platform_games = response.json()
 
-    print(f"\nRomM Game Count: {len(platform_games['items'])}\n")
+    if extract_file == True:
+        print(f"\nRomM Game Count: {len(platform_games['items'])}")
+        print(f"Extracted Extension: {config['ExtractedExtension'][platform_slug]}\n")
+    else: 
+        print(f"\nRomM Game Count: {len(platform_games['items'])}\n")
 
     # Import Stat Tracker
     new_game_count = 0
@@ -398,5 +415,10 @@ for platform in platforms:
         # Yes, the games in this platform should be imported into ES-DE
         print(f"========== {platform['name']} [{platform_slug}] ==========")
         log.debug(f"========== {platform['name']} [{platform_slug}] ==========")
+
+        # Check if this platform has a specified extension indicating extraction
+        extract_file = False
+        if config['ExtractedExtension'][platform_slug] != '':
+            extract_file = True
 
         importPlatformGames(platform['id'], platform_slug)
