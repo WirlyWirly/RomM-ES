@@ -39,12 +39,13 @@ def createPlaceholderFile(placeholder_file, romm_id, romm_extension=None):
             if extract_file == False:
                 file.write(f'RomM-ES:{romm_id}')
             else:
+                # Save the RomM file extension along with the RomM id
                 file.write(f'RomM-ES:{romm_id}:{romm_extension}')
 
             log.debug(f'Placeholder: "{placeholder_file}"')
 
-    elif os.path.getsize(placeholder_file) > 20:
-        # This file is too large to be a placeholder file, so do nothing
+    elif os.path.getsize(placeholder_file) > 25:
+        # This file is too large to be a RomM placeholder file, so do nothing
         return
 
     else:
@@ -54,7 +55,7 @@ def createPlaceholderFile(placeholder_file, romm_id, romm_extension=None):
         with placeholder_file.open('r', encoding='UTF-8') as file:
 
             # Search the contents of the file for a RomM id number
-            placeholder_id = re.search('^RomM-ES:(\d+)$', file.read())
+            placeholder_id = re.search('^RomM-ES:(\d+)(:\w+)?$', file.read())
 
         if placeholder_id is None:
             # This file does not contain a RomM id, so do nothing
@@ -62,7 +63,6 @@ def createPlaceholderFile(placeholder_file, romm_id, romm_extension=None):
 
         else:
             # Yes, this is a RomM placeholder file, so update the RomM id
-            placeholder_id = int(placeholder_id[1])
 
             with placeholder_file.open('w', encoding='UTF-8') as file:
 
@@ -86,7 +86,7 @@ def importGame(game, existing_paths):
         createPlaceholderFile(placeholder_file, game['id'])
     else:
         placeholder_file = placeholder_file.parent / f"{placeholder_file.stem}.{config['ExtractedExtension'][platform_slug]}"
-        romm_extension = re.search(r'\.\w+?$', game['fs_name'])
+        romm_extension = re.search(r'\.(\w+?)$', game['fs_name'])[1]
         createPlaceholderFile(placeholder_file, game['id'], romm_extension)
 
     # ---------- Dupe Check ----------
@@ -312,14 +312,17 @@ esde_roms_folder = C:/path/to/ROMs/
 
 
 [General]
-# The absolute path to the ES-DE data folder, if the RomM-ES folder is not already inside it
-esde_data_folder = C:/path/to/ES-DE/
+# (Required if Extracting) The absolute path to 7zip, if it is not already in the RomM-ES folder
+7zip = C:/path/to/7z.exe
 
 # Setting this to 'true' will supersede individual platform settings below and import games from all supported platforms
 import_all_platforms = true
 
-# The absolute path to 7zip, if it is not already in the RomM-ES folder
-7zip = C:/path/to/7z.exe
+# Delete a downloaded RomM archive after it has been extracted and the corresponding placeholder file replaced
+delete_archive_after_extraction = true
+
+# The absolute path to the ES-DE data folder, if the RomM-ES folder is not already inside it
+esde_data_folder = C:/path/to/ES-DE/
 
 
 [MediaTypes]
@@ -363,10 +366,40 @@ wiiu = false
 xbox = false
 xbox360 = false
 xboxone = false
+
+
+[ExtractedExtension]
+# If the roms are archived and need to be extracted, specify the file extension of the extracted rom file (no period)
+# ES-DE does not allow for changes to the filename when launching a game, so archives that need extraction must be imported with their extracted extension already specified
+3ds = 
+c64 = 
+dc = 
+gb = 
+gba = 
+gbc = 
+n64 = 
+nds = 
+nes = 
+ngc = 
+ps2 = 
+ps3 = 
+ps4 = 
+psp = 
+psvita = 
+psx = 
+saturn = 
+snes = 
+switch = 
+wii = 
+wiiu = 
+xbox = 
+xbox360 = 
+xboxone = 
 '''
+
     with config_file.open('w', encoding='UTF-8') as file:
         file.write(settings_template)
-    input("\nThe 'settings.ini' file has been created in the RomM-ES directory.\n\nUpdate the defaults in the [Required] section and any other optional settings")
+    input("\nThe 'settings.ini' file has been created in the RomM-ES directory.\n\nUpdate the defaults in the [Required] section and other optional settings")
     sys.exit()
 
 config = ConfigParser()
