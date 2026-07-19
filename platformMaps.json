@@ -1,4 +1,13 @@
 {
+    "3ds": {
+        "esde": "n3ds"
+    },
+    "c64": {
+        "esde": "c64"
+    },
+    "dc": {
+        "esde": "dreamcast"
+    },
     "gb": {
         "esde": "gb"
     },
@@ -14,16 +23,52 @@
     "nds": {
         "esde": "nds"
     },
+    "nes": {
+        "esde": "nes"
+    },
     "ngc": {
         "esde": "gc"
     },
     "ps2": {
         "esde": "ps2"
     },
+    "ps3": {
+        "esde": "ps3"
+    },
+    "ps4": {
+        "esde": "ps4"
+    },
     "psp": {
         "esde": "psp"
     },
+    "psvita": {
+        "esde": "psvita"
+    },
+    "psx": {
+        "esde": "psx"
+    },
+    "saturn": {
+        "esde": "saturn"
+    },
+    "snes": {
+        "esde": "snes"
+    },
+    "switch": {
+        "esde": "switch"
+    },
+    "wii": {
+        "esde": "wii"
+    },
+    "wiiu": {
+        "esde": "wiiu"
+    },
     "xbox": {
         "esde": "xbox"
+    },
+    "xbox360": {
+        "esde": "xbox360"
+    },
+    "xboxone": {
+        "esde": "xboxone"
     }
 }
